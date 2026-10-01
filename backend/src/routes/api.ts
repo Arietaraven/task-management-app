@@ -4,6 +4,7 @@ import { getTasks, getTaskById, createTask, updateTask, deleteTask, getDashboard
 import { getProfile, updateProfile } from '../controllers/userController';
 import { authenticateToken } from '../middleware/auth';
 import { validate } from '../middleware/validate';
+import { authLimiter } from '../middleware/rateLimiter';
 import { 
   registerSchema, 
   loginSchema, 
@@ -13,7 +14,15 @@ import {
   updateProfileSchema 
 } from '../validators/schemas';
 
+
 const router = Router();
+
+// Pass authLimiter as middleware before controller functions:
+router.post('/auth/login', authLimiter, login);
+router.post('/auth/register', authLimiter, register);
+router.post('/auth/forgot-password', authLimiter, forgotPassword);
+router.post('/auth/reset-password', authLimiter, resetPassword);
+
 
 // Auth Routes
 router.post('/auth/register', validate(registerSchema), register);
