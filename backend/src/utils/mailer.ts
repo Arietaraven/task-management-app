@@ -1,19 +1,21 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
-
 export const sendResetPasswordEmail = async (to: string, token: string) => {
-  const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
-  
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.resend.com',
+    port: 465,
+    secure: true, // Required for port 465 with Resend
+    auth: {
+      user: 'resend',
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+  const resetUrl = `${clientUrl}/reset-password?token=${token}`;
+
   await transporter.sendMail({
-    from: '"Task Manager Security" <no-reply@taskmanager.com>',
+    from: 'Task Manager <onboarding@resend.dev>',
     to,
     subject: 'Password Reset Request',
     html: `
