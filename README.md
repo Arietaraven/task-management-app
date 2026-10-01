@@ -31,6 +31,25 @@ Ensure you have the following installed on your machine:
 
 ---
 
+# Backend setup
+cd backend
+npm install
+npx prisma migrate dev
+npm run dev
+
+# Frontend setup
+cd frontend
+npm install
+npm run dev
+
+
+## test account
+testjohntest942@gmail.com
+testaccount123
+
+this is only for login but can't use for changed/forgot password
+
+
 ## Installation Instructions
 
 1. **Clone the repository:**
