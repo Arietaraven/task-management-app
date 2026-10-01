@@ -29,8 +29,9 @@ export const getTasks = async (req: AuthenticatedRequest, res: Response) => {
 
 export const getTaskById = async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const id = String(req.params.id);
     const task = await prisma.task.findFirst({
-      where: { id: req.params.id, userId: req.user!.id },
+      where: { id, userId: req.user!.id },
     });
 
     if (!task) return res.status(404).json({ message: 'Task not found' });
@@ -60,8 +61,8 @@ export const createTask = async (req: AuthenticatedRequest, res: Response) => {
 
 export const updateTask = async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const id = String(req.params.id);
     const validated = taskSchema.parse(req.body);
-    const { id } = req.params;
 
     const existingTask = await prisma.task.findFirst({
       where: { id, userId: req.user!.id },
@@ -85,7 +86,7 @@ export const updateTask = async (req: AuthenticatedRequest, res: Response) => {
 
 export const deleteTask = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
 
     const existingTask = await prisma.task.findFirst({
       where: { id, userId: req.user!.id },
