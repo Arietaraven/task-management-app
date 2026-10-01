@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { register, login, forgotPassword, resetPassword } from '../controllers/authController';
 import { getTasks, getTaskById, createTask, updateTask, deleteTask, getDashboardStats } from '../controllers/taskController';
-import { getProfile, updateProfile } from '../controllers/userController';
+import { getProfile, updateProfile, changePassword } from '../controllers/userController';
 import { authenticateToken } from '../middleware/auth';
 import { validate } from '../middleware/validate';
 import { authLimiter } from '../middleware/rateLimiter';
@@ -36,6 +36,7 @@ router.use(authenticateToken);
 // User Profile
 router.get('/users/profile', getProfile);
 router.put('/users/profile', validate(updateProfileSchema), updateProfile);
+router.put('/users/change-password', authenticateToken, changePassword);
 
 // Dashboard
 router.get('/dashboard/stats', getDashboardStats);
