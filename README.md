@@ -54,5 +54,5 @@ this is only for login but can't use for changed/forgot password
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Arietaraven/task-management-app.git
    cd task-management-app
